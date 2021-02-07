@@ -15,23 +15,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Button search = findViewById(R.id.button);
-        final EditText data = findViewById(R.id.editText);
+        final Button searchBtn = findViewById(R.id.button);
+        final EditText dataEdTxt = findViewById(R.id.editText);
         final Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
-
-        search.setOnClickListener(new View.OnClickListener() {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri uri;
-                String str = data.getText().toString();
-                char ch = str.charAt(0);
-                if (Character.isLetter(ch)) {
-                    String searchText = "geo:?q="+str;
-                    uri = Uri.parse(searchText);
-                } else {
-                    String searchXY = "geo:"+str;
+                String getTextOfEditText = dataEdTxt.getText().toString();
+                char chX = getTextOfEditText.charAt(0);
+                int indexSpace = getTextOfEditText.indexOf(' ');
+                char chY = getTextOfEditText.charAt(indexSpace+1);
+                if (Character.isDigit(chX) & Character.isDigit(chY) ) {
+                    String searchXY = "geo:"+getTextOfEditText;
                     uri = Uri.parse(searchXY);
+                } else {
+                    String searchText ="geo:?q="+getTextOfEditText;
+                    uri = Uri.parse(searchText);
                 }
                 intent.setData(uri);
                 startActivity(intent);
